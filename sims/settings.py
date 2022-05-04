@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'user_account'
+    'user_account',
+    'index',
 ]
 
 MIDDLEWARE = [
@@ -131,3 +132,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #Extended Auth User model
 AUTH_USER_MODEL = 'user_account.CustomUser'
+
+#Custom Authentication Backend
+AUTHENTICATION_BACKENDS = ['user_account.backends.EmailBackend']
