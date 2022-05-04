@@ -56,7 +56,7 @@ ROOT_URLCONF = 'sims.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR /'global_templates',BASE_DIR /'registration'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
