@@ -15,7 +15,12 @@ def login_view(request):
         user = authenticate(username=email,password=password)
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect(reverse('index_page'))
+            if user.is_administrator:
+                return HttpResponseRedirect(reverse('administrator_dashboard'))
+            if user.is_student:
+                return HttpResponseRedirect(reverse('student_dashboard'))
+            if user.is_teacher:
+                return HttpResponseRedirect(reverse('teacher_dashboard'))
         else:
             context = {'message':'user is none'}
             return render(request,'user_account/login.html',context)

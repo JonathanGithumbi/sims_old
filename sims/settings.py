@@ -39,6 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'user_account',
     'index',
+    'grade',
+    'student',
+    'subject',
+    'teacher',
+    'administrator'
 ]
 
 MIDDLEWARE = [
@@ -135,3 +140,5 @@ AUTH_USER_MODEL = 'user_account.CustomUser'
 
 #Custom Authentication Backend
 AUTHENTICATION_BACKENDS = ['user_account.backends.EmailBackend']
+MEDIA_ROOT = BASE_DIR/ 'uploads'
+MEDIA_URL = 'media/'
