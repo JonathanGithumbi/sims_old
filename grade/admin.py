@@ -1,3 +1,5 @@
 from django.contrib import admin
 
-# Register your models here.
+from grade.models import Grade
+
+admin.site.register(Grade)

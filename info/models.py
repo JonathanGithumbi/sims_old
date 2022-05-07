@@ -1,0 +1,31 @@
+from django.db import models
+
+class FeesStructure(models.Model):
+    year = models.IntegerField()
+    term = models.IntegerField()
+    admission = models.IntegerField()
+    diary_and_report_book = models.IntegerField()
+    interview_fee_lower_classes = models.IntegerField()
+    interview_fee_upper_classes = models.IntegerField()
+    play_group = models.IntegerField()
+    pre_primary1 = models.IntegerField()
+    pre_primary2 = models.IntegerField()
+    grade_1_to_3 = models.IntegerField()
+    primary_std_4_to_8 = models.IntegerField()
+    hot_lunch = models.IntegerField()
+    transport = models.IntegerField()
+
+class AcademicCalendar(models.Model):
+    year = models.IntegerField()
+    term_1_start_date = models.DateField()
+    term_1_mid_term_break_start = models.DateField()
+    term_1_mid_term_break_end = models.DateField()
+    term_1_end_date = models.DateField()
+    term_2_start_date = models.DateField()
+    term_2_mid_term_break_start = models.DateField()
+    term_2_mid_term_break_end = models.DateField()
+    term_2_end_date = models.DateField()
+    term_3_start_date = models.DateField(default='2022-1-1')
+    term_3_mid_term_break_start = models.DateField()
+    term_3_mid_term_break_end = models.DateField()
+    term_3_end_date = models.DateField(default='2022-1-1')

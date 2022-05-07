@@ -1,5 +1,12 @@
 {%extends 'base.html'%}
 
 {%block body%}
-<p>This is the admin dashboard</p>
+<h1>Administrator Dashboard</h1>
+<hr>
+<p>Features</p>
+<ul>
+    <li>
+        <a href="{% url 'register_student'%}">Register Student</a>
+    </li>
+</ul>
 {%endblock body%}
