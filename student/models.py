@@ -4,6 +4,11 @@ from user_account.models import CustomUser
 from grade.models import Grade
 
 class Student(models.Model):
+
+    def __str__(self):
+        user = self.user
+        return user.first_name +' '+user.middle_name+' '+user.last_name
+
     grade_admitted_to = models.ForeignKey(Grade,on_delete = models.DO_NOTHING)
     current_grade = models.ForeignKey(Grade,null=True,related_name='current_grade',on_delete = models.DO_NOTHING)
     primary_contact_name = models.CharField(max_length = 30)
