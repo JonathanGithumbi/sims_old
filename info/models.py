@@ -43,4 +43,5 @@ class AcademicCalendar(models.Model):
     term_3_end_date = models.DateTimeField()
     kcpe_start_date = models.DateTimeField()
     kcpe_end_date = models.DateTimeField()
+    
 

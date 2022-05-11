@@ -1,5 +1,6 @@
+from pyexpat.errors import messages
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from . import forms
 from user_account.models import CustomUser
 from student.models import Student
@@ -10,6 +11,8 @@ import datetime
 from datetime import datetime,timedelta
 from info.models import AcademicCalendar
 import pytz
+from django.contrib import messages
+from django.urls import reverse
 
 def admin_dashboard(request):
     return render(request,'administrator/admin_dashboard.html')
@@ -115,8 +118,13 @@ def register_student(request):
             date = date.replace(tzinfo=pytz.UTC)
             account.amount = get_term_amount(date,student.grade_admitted_to,lunch,transport)
             account.save()
-
-            return render(request,'test.html')
-
-        if not form.is_valid:
+            messages.add_message(request,messages.SUCCESS,"Student Registered Successfully")
+            return HttpResponseRedirect(reverse('student_profile', args=[student.user.id]))
+        if not form.is_valid():
             return render(request,'administrator/student_registration_page.html',{'form':form})
+
+
+def student_profile(request,id):
+    student = Student.objects.get(pk=id)
+    return render(request, 'administrator/student_profile_page.html',{'student':student})
+

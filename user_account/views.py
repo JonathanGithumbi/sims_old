@@ -6,7 +6,7 @@ from django.contrib.auth import views as auth_views
 from django.contrib.auth import login,logout
 from django.contrib.auth import authenticate
 from user_account.forms import LoginForm
-
+from django.contrib import messages
 
 def login_view(request):
     if request.method == 'POST':
@@ -22,8 +22,9 @@ def login_view(request):
             if user.is_teacher:
                 return HttpResponseRedirect(reverse('teacher_dashboard'))
         else:
-            context = {'message':'user is none'}
-            return render(request,'user_account/login.html',context)
+            messages.add_message(request,messages.ERROR,"Incorrect Email or Password")
+            form = LoginForm()
+            return render(request,'user_account/login.html',{'form':form})
     if request.method == 'GET':
         form = LoginForm()
         return render(request,'user_account/login.html',{'form': form})
