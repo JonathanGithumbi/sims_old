@@ -22,4 +22,23 @@ class StudentRegistrationForm(forms.Form):
     hot_lunch = forms.BooleanField(required=False)
     transport = forms.BooleanField(required=False)
 
+class SearchStudentForm(forms.Form):
+    first_name = forms.CharField(max_length=100, required=False)
+    grade =  forms.ModelChoiceField(queryset=Grade.objects.all())
+
+
+
+class TeacherRegistrationForm(forms.Form):
+
+    GENDER_CHOICES = (
+        ('male','Male'),
+        ('female','Female')
+    )
+    first_name = forms.CharField(max_length=30)
+    middle_name = forms.CharField(max_length=30)
+    last_name = forms.CharField(max_length=30)
+    gender = forms.ChoiceField(choices=GENDER_CHOICES)
+    image = forms.ImageField(required=False)
+    email =forms.EmailField()
+    date_of_birth = forms.DateField()
     

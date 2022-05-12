@@ -1,0 +1,14 @@
+{% extends 'administrator/admin_base.html' %}
+
+
+{% block body %}
+{%if students%}
+<ul>
+    {% for student in students %}
+    <li>
+        <a href="{% url 'student_profile' student.user.id %}">{{student.user.first_name}} {{student.user.middle_name}} {{student.user.last_name}}</a>
+    </li>
+    {% endfor %}
+</ul>
+{%endif%}
+{% endblock body %}

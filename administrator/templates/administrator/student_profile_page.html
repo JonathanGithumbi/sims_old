@@ -12,5 +12,16 @@
 {%endif %}
 <br>
 <p>Name : {{student.user.first_name}} {{student.user.middle_name}} {{student.user.last_name}}</p>
+<p>Gender: {{student.user.gender}}</p>
+<p>Email: {{student.user.email}} </p>
+<p>Primary Contact Name: {{student.primary_contact_name}} </p>
+<p>Primary Contact Phone Number: {{student.primary_contact_phone_number}} </p>
+<p>Secondary Contact Name: {{student.secondary_contact_name}} </p>
+<p>Secondary Contact Phone Number: {{student.secondary_contact_phone_number}} </p>
+<p>Hot Lunch: {{student.hot_lunch}} </p>
+<p>Transport: {{student.transport}} </p>
 <br>
+<a href="{%url 'update_student' student.user.id %}">Update Student Details</a>
+<br>
+<a href=" {%url 'delete_student' student.user.id%} ">Delete Student</a>
 {% endblock body %}

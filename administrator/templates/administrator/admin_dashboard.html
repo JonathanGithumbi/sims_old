@@ -1,12 +1,23 @@
 {%extends 'base.html'%}
 
 {%block body%}
+{%if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
 <h1>Administrator Dashboard</h1>
 <hr>
 <p>Features</p>
 <ul>
     <li>
         <a href="{% url 'register_student'%}">Register Student</a>
+    </li>
+
+    <li>
+        <a href="{% url 'search_student'%}">Search Student</a>
     </li>
 </ul>
 {%endblock body%}

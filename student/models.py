@@ -14,6 +14,10 @@ class Student(models.Model):
     primary_contact_name = models.CharField(max_length = 30)
     primary_contact_phone_number = models.CharField(max_length = 14)
     secondary_contact_name = models.CharField(max_length = 30)
-    seconday_contact_phone_number = models.CharField(max_length=14)
+    secondary_contact_phone_number = models.CharField(max_length=14)
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True)
+    # optionals 
+    hot_lunch = models.BooleanField(default=False)
+    transport = models.BooleanField(default=False)
+    
 
