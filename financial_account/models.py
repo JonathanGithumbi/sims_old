@@ -2,6 +2,9 @@ from django.db import models
 from student.models import Student
 
 class FinancialAccount(models.Model):
+    class Meta:
+        ordering = ['-date_of_payment']
+
     """a financial account constitutes of financial transactions"""
     def __str__(self):
         return self.student.__str__()

@@ -2,7 +2,7 @@ from django.db import models
 from grade.models import Grade
 
 class FeesStructure(models.Model):
-    
+    """The system should have the calender for only the current year at a time"""
     def __str__(self):
         year = str(self.year)
         term = str(self.term)

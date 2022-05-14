@@ -1,0 +1,8 @@
+{% extends 'administrator/admin_base.html' %}
+
+{% block body %}
+{% if transaction %}
+<p>This is transaction id: {{transaction.id}}</p>
+<a href=" {% url 'download_receipt' transaction.id%} "> Download Receipt </a>
+{% endif %}
+{% endblock body %}

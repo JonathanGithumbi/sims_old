@@ -1,4 +1,5 @@
 from pyexpat.errors import messages
+from urllib.request import proxy_bypass
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from requests import delete
@@ -111,17 +112,26 @@ def register_student(request):
                     # - We need to know which term and year we are now given the date
                     # - calculate the core fees items without optioinals, if we have optionals, add them
                     # - create a financial account and Credit that amount to the student financial account
-            account = FinancialAccount()
-            account.student = student
+            transaction = FinancialAccount()
+            transaction.student = student
+
+            #optionals
             lunch = form.cleaned_data['hot_lunch']
             transport = form.cleaned_data['transport']
+
             year = user.date_joined.year
             month = user.date_joined.month
             day = user.date_joined.day
             date = datetime(year,month,day)
+
+            #Making the datetime 'timezone aware', so that it can be used by get_term()
             date = date.replace(tzinfo=pytz.UTC)
-            account.amount = get_term_amount(date,student.grade_admitted_to,lunch,transport)
-            account.save()
+            
+            #Crediting the student the term's fees "+(-amount)"
+            transaction.amount = get_term_amount(date,student.grade_admitted_to,lunch,transport)
+            transaction.arrears = get_term_amount(date,student.grade_admitted_to,lunch,transport)
+            transaction.transaction_type = 'credit'
+            transaction.save()
             messages.add_message(request,messages.SUCCESS,"Student Registered Successfully")
             return HttpResponseRedirect(reverse('student_profile', args=[student.user.id]))
         if not form.is_valid():
@@ -208,3 +218,48 @@ def delete_student(request, id):
     messages.add_message(request,messages.SUCCESS,'Student Deleted Successfully')
     return redirect(reverse('administrator_dashboard'))
 
+
+def make_payment(request,id):
+    """Making debit transactions"""
+    student = Student.objects.get(pk=id)
+    if request.method == 'GET':
+        form = forms.MakePaymentForm()
+        return render(request, 'administrator/make_payment_page.html',{'form':form,'student':student})
+    if request.method == 'POST':
+        form = forms.MakePaymentForm(request.POST)
+        if form.is_valid():
+            prev_transaction = student.financialaccount_set.order_by('-date_of_payment').first()
+            print(prev_transaction.amount)
+            prev_arrears = prev_transaction.arrears
+            arrears = prev_arrears + form.cleaned_data['amount']
+            transaction = student.financialaccount_set.create(
+            transaction_type = 'debit',
+            amount = form.cleaned_data['amount'],
+            arrears = arrears,
+            student = student ,
+            )
+            transaction.save()
+            messages.add_message(request,messages.SUCCESS,'Payment made successfully')
+            return redirect(reverse('student_profile',args=[student.user.id]))
+        else:
+            return render(request,'administrator/make_payment_page.html',{'form':form,'student':student})
+
+
+def transaction_details(request, id ):
+    transaction = FinancialAccount.objects.get(pk=id)
+    return render(request,'administrator/transaction_details.html',{'transaction':transaction})
+        
+
+def download_statement(request, id):
+    """Generate Statement"""
+    pass
+
+def download_receipt(request, id):
+    """Generate PDF"""
+    pass
+    
+def reports(requests):
+    pass
+
+def all_students(requests):
+    pass
