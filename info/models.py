@@ -15,10 +15,11 @@ class FeesStructure(models.Model):
     grade = models.ForeignKey(Grade, on_delete=models.CASCADE)
     admission = models.IntegerField()
     diary_and_report_book = models.IntegerField()
-    interview_fee = models.IntegerField()
     tuition_fee = models.IntegerField()
     hot_lunch = models.IntegerField()
     transport = models.IntegerField()
+
+    
 
 
 class AcademicCalendar(models.Model):

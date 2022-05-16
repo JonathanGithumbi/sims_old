@@ -15,11 +15,20 @@ from info.models import AcademicCalendar
 import pytz
 from django.contrib import messages
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
+import io
+from django.http import FileResponse
+from financial_account.models import CurrentBalance
 
+@login_required
 def admin_dashboard(request):
+    """This view lands the user on  the administration dashboard"""
+    """Displaying a list of functionalities afforded the administrator """
     return render(request,'administrator/admin_dashboard.html')
 
 def date_range(start,end):
+    """This view returns a list of datetime instances  of days between 'start' day and 'end' day """
+    """It is used in get_term() to retrieve the term number """
     delta = end-start
     days = [start + timedelta(days=i) for i in range(delta.days+1)]
     return days
@@ -27,7 +36,8 @@ def date_range(start,end):
 
 def get_term(date):
     """This method returns the term number (int) given the date """
-    calendar = AcademicCalendar.objects.get(year=date.year)
+    """Uses date_range() to retrieve the list of days in a term"""
+    calendar = AcademicCalendar.objects.get(year=date.year)#This is the date provided from user.date_joined, during student registration
     term_1_start_date = calendar.term_1_start_date
     term_1_end_date = calendar.term_1_end_date
     term_2_start_date =calendar.term_2_start_date
@@ -47,14 +57,15 @@ def get_term(date):
         return 3
 
 
-def get_term_amount(date,grade,lunch,transport):
+def get_term_amount(date,grade,lunch,transport):#Lunch and transport are optionals 
     """This function retrieves the fees due for a given term, provided the current date"""
     """it returns the amount due for a given term ther amount will be negative to indicate amout is due"""
+    """This method is used only during student registration, a separate function get_term_amount_continous() calculates the amount for continuing students """
     #date is a datetime instance
-    year = date.year
+    year = date.year#This is the date provided from user.date_joined, during student registration
     term = get_term(date)
     fee = FeesStructure.objects.get(year=2022,term=term,grade=grade)
-    amount = fee.admission + fee.diary_and_report_book + fee.tuition_fee
+    amount = fee.admission + fee.diary_and_report_book + fee.tuition_fee # the amount is the core_amount-'not optionals'
     if lunch and not transport:
         amount  = amount+ fee.hot_lunch
     if transport and not lunch:
@@ -65,12 +76,12 @@ def get_term_amount(date,grade,lunch,transport):
     return -abs(amount)
 
 def register_student(request):
-    """a student must have a financial account and must be able to opt a student out of optional fees items"""
+    """This function registers a user, and associates that user to a student which is then associated with a financial account"""
     if request.method == 'GET':
         form = forms.StudentRegistrationForm()
         return render(request,'administrator/student_registration_page.html',{'form':form})
     if request.method =='POST':
-        form = forms.StudentRegistrationForm(request.POST,request.FILES)
+        form = forms.StudentRegistrationForm(request.POST,request.FILES)# request.Files to retrieve the image file
         if form.is_valid():
             #Student registration logic
             # 1.create a user
@@ -134,15 +145,18 @@ def register_student(request):
             transaction.save()
             messages.add_message(request,messages.SUCCESS,"Student Registered Successfully")
             return HttpResponseRedirect(reverse('student_profile', args=[student.user.id]))
-        if not form.is_valid():
+        else:
             return render(request,'administrator/student_registration_page.html',{'form':form})
 
-
+@login_required
 def student_profile(request,id):
+    """this function displays the student's information including financial history"""
+    """Gives access to  update, delete and downloading and printing of financial documents"""
     student = Student.objects.get(pk=id)
     return render(request, 'administrator/student_profile_page.html',{'student':student})
 
 def search_student(request):
+    """Searches for a given student given the first name and grade """
     if request.method == 'GET':
         form = forms.SearchStudentForm()
         return render(request, 'administrator/search_student_page.html',{'form':form})
@@ -165,6 +179,7 @@ def search_student(request):
             return render(request, 'administrator/search_student_page.html',{'form':form})
             
 def update_student(request,id):
+    """Updates student details """
     student = Student.objects.get(pk=id)
     user = CustomUser.objects.get(pk=student.user.id)
     if request.method == 'GET':
@@ -213,6 +228,7 @@ def update_student(request,id):
             return render(request, 'administrator/student_update_page.html',{'form':form})
 
 def delete_student(request, id):
+    """Deletes a user which deletes the student which deletes the account"""
     user = CustomUser.objects.get(pk=id)
     user.delete()
     messages.add_message(request,messages.SUCCESS,'Student Deleted Successfully')
@@ -221,6 +237,7 @@ def delete_student(request, id):
 
 def make_payment(request,id):
     """Making debit transactions"""
+    """This is used for debiting amounts to a student's account"""
     student = Student.objects.get(pk=id)
     if request.method == 'GET':
         form = forms.MakePaymentForm()
@@ -246,20 +263,50 @@ def make_payment(request,id):
 
 
 def transaction_details(request, id ):
+    """displays transaction details and allows you to print/download receipt for a payment """
     transaction = FinancialAccount.objects.get(pk=id)
     return render(request,'administrator/transaction_details.html',{'transaction':transaction})
         
 
 def download_statement(request, id):
+    """downloads/prints a financial history statement for a given student"""
     """Generate Statement"""
     pass
 
 def download_receipt(request, id):
+    """downloads/prints a receipt for a given transaction"""
     """Generate PDF"""
     pass
     
-def reports(requests):
-    pass
+def reports(request):
+    """displays options to display and print reports {'students with high arrears','students taking hot lunch this term','students taking transport this year'}"""
+    return render(request, 'administrator/reports.html')
 
-def all_students(requests):
-    pass
+def lunch_report(request):
+    students = Student.objects.filter(hot_lunch=True)
+    return render(request, 'administrator/lunch_report.html',{'students':students})
+
+def transport_report(request):
+    students = Student.objects.filter(transport=True)
+    return render(request, 'administrator/transport_report.html',{'students':students})
+
+def fees_arrears_report(request):
+    # get a list of all the students whose arrears is greater than 0
+    # make sure to get the latest transaction for a given student
+    records = CurrentBalance.objects.filter(current_balance__lt = 0).order_by('-current_balance')
+    return render(request, 'administrator/fees_Arrears_report.html',{'records':records})
+
+
+def fees_structure(request):
+    """Displays the current fees structure fo a give year,term"""
+    return render(request, 'administrator/fees_structure.html')
+
+def academic_calendar(request):
+    return render(request, 'administrator/academic_calendar.html')
+
+def notifications(request):
+    return render(request, 'administrator/notifications.html')
+
+
+
+

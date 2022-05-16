@@ -1,0 +1,33 @@
+view left to build:
+    statement download 
+    receipt download 
+    reports {'students with high arrears','students taking hot lunch this term','students taking transport this year'}
+    academic calendar( preference to makem  API calls)
+    fee structure
+    notification (to remind you to update  the fee structure and the academic calendar*)
+    quick 
+    Mpesa Api calls
+    print directly
+
+receipt should have:
+    description
+    receipt number
+    date:
+    total_paid:
+    amount in words
+    and a table with description amount and cashier signature/stamp
+    and a 'received with thanks on behalf of kings educational centre \n you were served by xxxx'
+
+test whether dates has a high tolerance to date  and datetime instances
+
+i need a way to signal the system that it's a new term and that it should credit all of the students' accounts with the term's CORE fees
+Question: for continuing students, how do students communicate that they will be PAYING FOR THE OPTIONALS? DURING OPENING TIME ?
+When a student communicates his desire to pay for the optionals, the admin will search for the student in the system and turn on the 
+hot lunch option, otherwise termly accoun crediting defaults to false on optionals and credits only the core amount
+    the system needs to have a clock it can refer to on a daily basis
+
+
+
+download meal cards 
+
+make sure you implemennt logic for changin student.current_grade when they proceed to the next level

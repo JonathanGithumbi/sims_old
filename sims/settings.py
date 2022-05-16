@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+#from django.urls import reverse
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -45,7 +46,8 @@ INSTALLED_APPS = [
     'teacher',
     'administrator',
     'info',
-    'financial_account'
+    'financial_account',
+    'wkhtmltopdf',
 ]
 
 MIDDLEWARE = [
@@ -146,3 +148,6 @@ AUTH_USER_MODEL = 'user_account.CustomUser'
 AUTHENTICATION_BACKENDS = ['user_account.backends.EmailBackend']
 MEDIA_ROOT = BASE_DIR/ 'uploads'
 MEDIA_URL = 'media/'
+STATIC_URL = 'static/'
+
+#LOGIN_URL = reverse('login')

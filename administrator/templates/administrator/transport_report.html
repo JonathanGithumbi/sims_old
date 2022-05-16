@@ -1,0 +1,17 @@
+{% extends 'administrator/admin_base.html' %}
+
+{% block body %}  
+The Following Pupils have signed up for transport   
+<table>
+    <tr>
+      <th>Name</th>
+      <th>Grade</th>
+    </tr>
+    {% for student in students %}
+      <tr>
+        <td> {{student.user.first_name}} {{student.user.middle_name}} {{student.user.last_name}} </td>
+        <td>{{student.current_grade}}</td>
+      </tr>
+    {% endfor %}
+</table>
+{% endblock body %}

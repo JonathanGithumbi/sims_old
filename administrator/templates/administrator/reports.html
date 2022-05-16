@@ -1,0 +1,17 @@
+{% extends 'administrator/admin_base.html' %}
+
+
+{% block body %}
+these are the reports available 
+<ul>
+    <li>
+        <a href="{% url 'fees_arrears_report'%}">Students With Fees Arrears</a>
+    </li>
+    <li>
+        <a href="{% url 'lunch_report'%}">Students Taking Lunch</a>
+    </li>
+    <li>
+        <a href="{% url 'transport_report'%}">Students Taking Transport</a>
+    </li>
+</ul>
+{% endblock body %}
