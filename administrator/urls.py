@@ -12,10 +12,11 @@ urlpatterns = [
     path('receipt/<int:id>/',views.download_receipt, name='download_receipt'),
     path('statement/<int:id>/', views.download_statement, name='download_statement'),
     path('reports/',views.reports, name='reports'),   
-    path('fees_structure', views.fees_structure, name='fees_structure'),
-    path('academic calendar',views.academic_calendar, name ='academic_calendar'),
-    path('notifications', views.notifications, name='notifications'),
+    path('search fees structure', views.search_fees_structure, name='search_fees_structure'),
+
     path('report/lunch',views.lunch_report,name='lunch_report'),
     path('report/transport',views.transport_report,name='transport_report'),
     path('report/fees arrears/',views.fees_arrears_report,name='fees_arrears_report'),
+    path('update/fees structure/<int:id>',views.update_fees_structure,name='update_fees_structure'),
+    path('generate/school fees structure',views.generate_fees_structure, name='generate_fees_structure')
 ]

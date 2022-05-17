@@ -8,4 +8,16 @@
 </form>
 <br>
 <hr>
+
+{%if students%}
+<ul>
+    {% for student in students %}
+    <li>
+        <a href="{% url 'student_profile' student.user.id %}">{{student.user.first_name}} {{student.user.middle_name}} {{student.user.last_name}}</a>
+    </li>
+    {%empty%}
+    <p>No student exists with that first name </p>
+    {% endfor %}
+</ul>
+{%endif%}
 {% endblock %}

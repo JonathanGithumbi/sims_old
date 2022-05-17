@@ -40,7 +40,23 @@ class TeacherRegistrationForm(forms.Form):
     
 
 class MakePaymentForm(forms.Form):
+    """"""
     amount = forms.DecimalField(max_digits=8,decimal_places=2)
     # Transaction number for  API call to paybill/bank acc, for confirmation of transaction status
     #transaction_number = forms.IntegerField()
+
+class FeesStructureSearchForm(forms.Form):
+    year = forms.IntegerField()
+    term = forms.IntegerField()
+    grade = forms.ModelChoiceField(queryset=Grade.objects.all())
+
+class FeesStructureUpdateForm(forms.Form):
+    year = forms.IntegerField()
+    term = forms.IntegerField()
+    grade = forms.ModelChoiceField(queryset=Grade.objects.all())
+    admission = forms.IntegerField()
+    diary_and_report_book = forms.IntegerField()
+    tuition_fee = forms.IntegerField()
+    hot_lunch = forms.IntegerField()
+    transport = forms.IntegerField()
     

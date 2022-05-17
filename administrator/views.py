@@ -168,12 +168,13 @@ def search_student(request):
             
             grade = form.cleaned_data['grade']
 
+            #this feature allows for getting all the students from a certain grade
             if grade and not first_name :
                 students = Student.objects.filter(current_grade=grade)
-                return render(request, 'administrator/search_results_page.html',{'students':students})
+                return render(request, 'administrator/search_student_page.html',{'students':students,'form':form})
             if grade and first_name:
                 students = Student.objects.filter(current_grade=grade).filter(user__first_name__iexact = first_name)
-                return render(request, 'administrator/search_results_page.html',{'students':students})
+                return render(request, 'administrator/search_student_page.html',{'students':students,'form':form})
             
         else:
             return render(request, 'administrator/search_student_page.html',{'form':form})
@@ -297,15 +298,58 @@ def fees_arrears_report(request):
     return render(request, 'administrator/fees_Arrears_report.html',{'records':records})
 
 
-def fees_structure(request):
-    """Displays the current fees structure fo a give year,term"""
-    return render(request, 'administrator/fees_structure.html')
+def search_fees_structure(request):
+    """Displays the current fees structure for a give year,term"""
+    """Fees structures are grade-wise"""
+    if request.method == 'GET':
+        form = forms.FeesStructureSearchForm()
+        return render(request, 'administrator/search_fees_structure_page.html',{'form':form})
+    if request.method == 'POST':
+        form = forms.FeesStructureSearchForm(request.POST)
+        if form.is_valid():
+            fees_struc = FeesStructure.objects.get(
+                year = form.cleaned_data['year'],
+                term = form.cleaned_data['term'],
+                grade = form.cleaned_data['grade']
+            )
+            return render(request,'administrator/search_fees_structure_page.html',{'fees_struc':fees_struc,'form':form})
+        else:
+            return render(request, 'administrator/search_fees_structure_page.html')
 
-def academic_calendar(request):
-    return render(request, 'administrator/academic_calendar.html')
+def update_fees_structure(request,id):
+    fees_struc = FeesStructure.objects.get(pk=id)
+    if request.method ==  'GET':
+        data = {
+            'year' : fees_struc.year,
+            'term': fees_struc.term,
+            'grade':fees_struc.grade,
+            'admission':fees_struc.admission,
+            'diary_and_report_book':fees_struc.diary_and_report_book,
+            'tuition_fee':fees_struc.tuition_fee,
+            'hot_lunch':fees_struc.hot_lunch,
+            'transport':fees_struc.transport
+        }
+        form = forms.FeesStructureUpdateForm(data=data)
+        return render(request, 'administrator/fees_structure_update_page.html',{'form':form})
+    if request.method == 'POST':
+        form = forms.FeesStructureUpdateForm(request.POST)
+        if form.is_valid():
+            fees_struc.year = form.cleaned_data['year']
+            fees_struc.term = form.cleaned_data['term']
+            fees_struc.grade = form.cleaned_data['grade']
+            fees_struc.admission = form.cleaned_data['admission']
+            fees_struc.diary_and_report_book = form.cleaned_data['diary_and_report_book']
+            fees_struc.tuition_fee = form.cleaned_data['tuition_fee']
+            fees_struc.hot_lunch = form.cleaned_data['hot_lunch']
+            fees_struc.transport = form.cleaned_data['transport']
+            fees_struc.save()
+            form = forms.FeesStructureSearchForm()
+            return render(request, 'administrator/search_fees_structure_page.html',{'form':form,'fees_struc':fees_struc})
 
-def notifications(request):
-    return render(request, 'administrator/notifications.html')
+
+def generate_fees_structure(request):
+    """Generates printable School Fees Structure"""
+    pass
 
 
 

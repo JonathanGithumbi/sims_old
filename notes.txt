@@ -31,3 +31,6 @@ hot lunch option, otherwise termly accoun crediting defaults to false on optiona
 download meal cards 
 
 make sure you implemennt logic for changin student.current_grade when they proceed to the next level
+
+make sure the academic calendar is self  sufficient
+
