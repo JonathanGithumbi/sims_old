@@ -43,7 +43,7 @@
         <td>{{transaction.date_of_payment}}</td>
         <td>{{transaction.amount}}</td>
         <td> {{transaction.arrears}} </td>
-        <td><a href=" {% url 'transaction_details' transaction.id %} ">Details</a></td>
+        <td><a href=" {% url 'download_receipt' transaction.id %} ">Details</a></td>
       </tr>
     {% endfor %}
   </table>

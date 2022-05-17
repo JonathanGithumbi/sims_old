@@ -13,10 +13,10 @@ urlpatterns = [
     path('statement/<int:id>/', views.download_statement, name='download_statement'),
     path('reports/',views.reports, name='reports'),   
     path('search fees structure', views.search_fees_structure, name='search_fees_structure'),
-
-    path('report/lunch',views.lunch_report,name='lunch_report'),
-    path('report/transport',views.transport_report,name='transport_report'),
-    path('report/fees arrears/',views.fees_arrears_report,name='fees_arrears_report'),
     path('update/fees structure/<int:id>',views.update_fees_structure,name='update_fees_structure'),
-    path('generate/school fees structure',views.generate_fees_structure, name='generate_fees_structure')
+    path('generate/school fees structure report',views.generate_fees_structure_report, name='generate_fees_structure_report'),
+    path('generate/fees arrears report',views.generate_fees_arrears_report, name='generate_fees_arrears_report'),
+    path('gennerate/lunch subscribers report',views.generate_lunch_subscribers_report, name='generate_lunch_subscribers_report'),
+    path('generate/transport subscribers report',views.generate_transport_subscribers_report,name='generate_transport_subscribers_report'),
+
 ]

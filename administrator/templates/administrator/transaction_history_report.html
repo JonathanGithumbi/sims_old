@@ -1,7 +1,6 @@
 {% extends 'administrator/admin_base.html' %}
 
 {% block body %}
-{% if transaction %}
 <table>
     <tr>
       
@@ -12,6 +11,7 @@
       <th>Arrears</th>
       <th>Details</th>
     </tr>
+    {% for transaction in transactions %}
       <tr>
         <td> {{transaction.id}} </td>
         <td>{{transaction.transaction_type}}</td>
@@ -19,6 +19,6 @@
         <td>{{transaction.amount}}</td>
         <td> {{transaction.arrears}} </td>
       </tr>
+    {% endfor %}
   </table>
-{% endif %}
 {% endblock body %}

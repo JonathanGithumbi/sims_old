@@ -19,7 +19,13 @@ from django.contrib.auth.decorators import login_required
 import io
 from django.http import FileResponse
 from financial_account.models import CurrentBalance
-
+import os
+from django.conf import settings
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+from django.contrib.staticfiles import finders
+from .utils import render_to_pdf
 @login_required
 def admin_dashboard(request):
     """This view lands the user on  the administration dashboard"""
@@ -270,32 +276,23 @@ def transaction_details(request, id ):
         
 
 def download_statement(request, id):
-    """downloads/prints a financial history statement for a given student"""
-    """Generate Statement"""
-    pass
-
+    student= Student.objects.get(pk=id)
+    transactions = FinancialAccount.objects.filter(student=student)
+    context = {'transactions':transactions}
+    template_name = 'administrator/transaction_history_report.html'
+    pdf = render_to_pdf(template_name,context)
+    return HttpResponse(pdf, content_type='application/pdf')
+    
 def download_receipt(request, id):
-    """downloads/prints a receipt for a given transaction"""
-    """Generate PDF"""
-    pass
+    transaction = FinancialAccount.objects.get(id=id)
+    context = {'transaction':transaction}
+    template_name = 'administrator/transaction_details.html'
+    pdf = render_to_pdf(template_name,context)
+    return HttpResponse(pdf, content_type='application/pdf')
     
 def reports(request):
     """displays options to display and print reports {'students with high arrears','students taking hot lunch this term','students taking transport this year'}"""
     return render(request, 'administrator/reports.html')
-
-def lunch_report(request):
-    students = Student.objects.filter(hot_lunch=True)
-    return render(request, 'administrator/lunch_report.html',{'students':students})
-
-def transport_report(request):
-    students = Student.objects.filter(transport=True)
-    return render(request, 'administrator/transport_report.html',{'students':students})
-
-def fees_arrears_report(request):
-    # get a list of all the students whose arrears is greater than 0
-    # make sure to get the latest transaction for a given student
-    records = CurrentBalance.objects.filter(current_balance__lt = 0).order_by('-current_balance')
-    return render(request, 'administrator/fees_Arrears_report.html',{'records':records})
 
 
 def search_fees_structure(request):
@@ -347,8 +344,34 @@ def update_fees_structure(request,id):
             return render(request, 'administrator/search_fees_structure_page.html',{'form':form,'fees_struc':fees_struc})
 
 
-def generate_fees_structure(request):
-    """Generates printable School Fees Structure"""
+def generate_fees_arrears_report(request):
+    # get a list of all the students whose arrears is less than 0
+    # make sure to get the latest transaction for a given student
+    records = CurrentBalance.objects.filter(current_balance__lt = 0).order_by('-current_balance')
+    context = {'records':records}
+    template_name = 'administrator/fees_arrears_report.html'
+    pdf = render_to_pdf(template_name,context)
+    return HttpResponse(pdf, content_type='application/pdf')
+
+
+def generate_lunch_subscribers_report(request):
+    students = Student.objects.filter(hot_lunch=True)
+    context = {'students':students}
+    template_name = 'administrator/lunch_report.html'
+    pdf = render_to_pdf(template_name,context)
+    return HttpResponse(pdf, content_type='application/pdf')
+
+
+
+def generate_transport_subscribers_report(request):
+    students = Student.objects.filter(transport=True)
+    context = {'students':students}
+    template_name = 'administrator/transport_report.html'
+    pdf = render_to_pdf(template_name,context)
+    return HttpResponse(pdf, content_type='application/pdf')
+
+def generate_fees_structure_report(request):
+    fees_structures = FeesStructure.objects.all()
     pass
 
 

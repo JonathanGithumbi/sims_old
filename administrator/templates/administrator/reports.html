@@ -5,16 +5,14 @@
 these are the reports available 
 <ul>
     <li>
-        <a href="{% url 'fees_arrears_report'%}">Students With Fees Arrears</a>
+        <a href="{% url 'generate_fees_arrears_report'%}">Students With Fees Arrears</a>
     </li>
     <li>
-        <a href="{% url 'lunch_report'%}">Students Taking Lunch</a>
+        <a href="{% url 'generate_lunch_subscribers_report'%}">Students Taking Lunch</a>
     </li>
     <li>
-        <a href="{% url 'transport_report'%}">Students Taking Transport</a>
+        <a href="{% url 'generate_transport_subscribers_report'%}">Students Taking Transport</a>
     </li>
-    <li>
-        <a href="{% url 'generate_fees_structure' %}">School Fees Structure</a>
-    </li>
+    
 </ul>
 {% endblock body %}

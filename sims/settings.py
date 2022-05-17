@@ -133,9 +133,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    BASE_DIR /'static'
-]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -146,8 +144,11 @@ AUTH_USER_MODEL = 'user_account.CustomUser'
 
 #Custom Authentication Backend
 AUTHENTICATION_BACKENDS = ['user_account.backends.EmailBackend']
-MEDIA_ROOT = BASE_DIR/ 'uploads'
+MEDIA_ROOT = BASE_DIR/ 'static/uploads'
 MEDIA_URL = 'media/'
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'static/'
+
 
 #LOGIN_URL = reverse('login')
+windows_path = r''
