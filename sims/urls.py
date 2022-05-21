@@ -27,3 +27,4 @@ urlpatterns = [
     path('teacher/',include('teacher.urls'))
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
+

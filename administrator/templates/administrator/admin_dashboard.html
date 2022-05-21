@@ -1,4 +1,4 @@
-{%extends 'base.html'%}
+{%extends 'administrator/admin_base.html'%}
 
 {%block body%}
 {%if messages %}
@@ -10,24 +10,5 @@
 {% endif %}
 <h1>Administrator Dashboard</h1>
 <hr>
-<p>Features</p>
-<ul>
-    <li>
-        <a href="{% url 'register_student'%}">Register Student</a>
-    </li>
 
-    <li>
-        <a href="{% url 'search_student'%}">Search Student</a>
-    </li>
-
-    <li>
-        <a href="{% url 'reports'%}">Reports</a>
-    </li>
-
-    <li>
-        <a href="{% url 'search_fees_structure'%}">Fees Structure</a>
-    </li>
-    
-
-</ul>
 {%endblock body%}

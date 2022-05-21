@@ -1,8 +1,41 @@
-{% extends 'administrator/admin_base.html' %}
-
-{% block body %}
-{% if transaction %}
-<table>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'w3.css'%}">
+  <title>Fees Payment Detail</title>
+  <style>
+    #payment_details {
+      
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    #payment_details td, #payment_details th {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+    
+    #payment_details tr:nth-child(even){background-color: #f2f2f2;}
+    
+    #payment_details tr:hover {background-color: #ddd;}
+    
+    #payment_details th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-align: left;
+      background-color: #04AA6D;
+      color: white;
+    }
+    </style>
+</head>
+<body>
+  <h2>Fees Payment Details</h2>
+  {% if transaction %}
+<table id="payment_details">
     <tr>
       
       <th>Transaction ID</th>
@@ -10,7 +43,6 @@
       <th>Date of Payment</th>
       <th>Amount Payed</th>
       <th>Arrears</th>
-      <th>Details</th>
     </tr>
       <tr>
         <td> {{transaction.id}} </td>
@@ -21,4 +53,5 @@
       </tr>
   </table>
 {% endif %}
-{% endblock body %}
+</body>
+</html>

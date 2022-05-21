@@ -1,54 +1,89 @@
 {% extends 'administrator/admin_base.html' %}
 {% load static %}
-
-
 {% block body %}
-{%if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-</ul>
-{%endif %}
-<br>
-<p>Name : {{student.user.first_name}} {{student.user.middle_name}} {{student.user.last_name}}</p>
-<p>Gender: {{student.user.gender}}</p>
-<p>Email: {{student.user.email}} </p>
-<p>Primary Contact Name: {{student.primary_contact_name}} </p>
-<p>Primary Contact Phone Number: {{student.primary_contact_phone_number}} </p>
-<p>Secondary Contact Name: {{student.secondary_contact_name}} </p>
-<p>Secondary Contact Phone Number: {{student.secondary_contact_phone_number}} </p>
-<p>Hot Lunch: {{student.hot_lunch}} </p>
-<p>Transport: {{student.transport}} </p>
-<br>
-<a href="{%url 'update_student' student.user.id %}">Update Student Details</a>
-<br>
-<a href=" {%url 'delete_student' student.user.id%} ">Delete Student</a>
-<br>
-<h1>Transaction History</h1>
-<table>
-    <tr>
-      
-      <th>Transaction ID</th>
-      <th>Transaction Type</th>
-      <th>Date of Payment</th>
-      <th>Amount Payed</th>
-      <th>Arrears</th>
-      <th>Details</th>
-    </tr>
-    {% for transaction in student.financialaccount_set.all %}
-      <tr>
-        <td> {{transaction.id}} </td>
-        <td>{{transaction.transaction_type}}</td>
-        <td>{{transaction.date_of_payment}}</td>
-        <td>{{transaction.amount}}</td>
-        <td> {{transaction.arrears}} </td>
-        <td><a href=" {% url 'download_receipt' transaction.id %} ">Details</a></td>
-      </tr>
-    {% endfor %}
-  </table>
-  <a href=" {% url 'download_statement' student.user.id%}">Download Statement</a>
-  <br>
-  <hr>
-  <a href=" {% url 'make_payment' student.user.id %}">Make Payment</a>
+    <div class="w3-container">
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }} w3-panel w3-green w3-border w3-round"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+          <table class="w3-table-all">
+            <tr><h2>Student Info</h2></tr>
+            <tr>
+              <th>Name:</th>
+              <td>{{ student.user.first_name }} {{ student.user.middle_name }} {{ student.user.last_name }}</td>
+            </tr>
+            <tr>
+              <th>Gender:</th>
+              <td>{{ student.user.gender }}</td>
+            </tr>
+            <tr>
+              <th>Email:</th>
+              <td>{{ student.user.email }}</td>
+            </tr>
+            <tr>
+              <th>Primary Contact Name:</th>
+              <td>{{ student.primary_contact_name }}</td>
+            </tr>
+            <tr>
+              <th>rimary Contact Phone Number:</th>
+              <td>{{ student.primary_contact_phone_number }}</td>
+            </tr>
+            <tr>
+              <th>Secondary Contact Name:</th>
+              <td>{{ student.secondary_contact_name }}</td>
+            </tr>
+            <tr>
+              <th>Secondary Contact Phone Number:</th>
+              <td>{{ student.secondary_contact_phone_number }}</td>
+            </tr>
+            <tr>
+              <th>Hot Lunch:</th>
+              <td>{{ student.hot_lunch }}</td>
+            </tr>
+            <tr>
+              <th>Transport:</th>
+              <td>{{ student.transport }}</td>
+            </tr>
+          </table>
+        <br>
+        <a href="{% url 'update_student' student.user.id %}" class="w3-button w3-blue w3-round">Update Student Details</a>
+        <br>
+        <br>
+        <a href=" {% url 'delete_student' student.user.id %} " class="w3-button w3-red w3-round">Delete Student</a>
+        <br>
+        <hr>
+        <h1>Transaction History</h1>
+        <table class="w3-table-all">
+            <tr>
+                <th>Transaction ID</th>
+                <th>Transaction Type</th>
+                <th>Date of Payment</th>
+                <th>Amount Payed</th>
+                <th>Arrears</th>
+                <th>Details</th>
+            </tr>
+            {% for transaction in student.financialaccount_set.all %}
+                <tr>
+                    <td>{{ transaction.id }}</td>
+                    <td>{{ transaction.transaction_type }}</td>
+                    <td>{{ transaction.date_of_payment }}</td>
+                    <td>{{ transaction.amount }}</td>
+                    <td>{{ transaction.arrears }}</td>
+                    <td>
+                        <a href=" {% url 'download_receipt' transaction.id %} " class="w3-button w3-small w3-blue w3-round">Details</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        <br>
+        <a href=" {% url 'download_statement' student.user.id %}" class="w3-button w3-blue w3-round">Download Statement</a>
+  
+        <a href=" {% url 'make_payment' student.user.id %}" class="w3-button w3-blue w3-round">Make Payment</a>
+        <br>
+        <br>
+    </div>
 {% endblock body %}

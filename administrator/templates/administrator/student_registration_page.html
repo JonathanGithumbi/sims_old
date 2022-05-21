@@ -1,21 +1,25 @@
-{% extends 'base.html' %}
+{% extends 'administrator/admin_base.html' %}
 
 {% block body %}
-<br>
-
-<form action="" method="post" enctypt="multipart/form-data">
-    {% csrf_token %}
-    {{form.non_field_errors}}
-    
-    {% for field in form %}
-    <div class="fieldWrapper">
-        {{ field.errors }}
-        {{ field.label_tag }} {{ field }}
-        {% if field.help_text %}
-        <p class="help">{{ field.help_text|safe }}</p>
-        {% endif %}
-    </div>
-{% endfor %}
-    <input type="submit" value="Register">
-</form>
+<div class="w3-container">
+    <form action="" method="post" enctypt="multipart/form-data" class="w3-container w3-border w3-round w3-light-grey">
+        <h2>Student Registration Form</h2>
+        {% csrf_token %}
+        {{form.non_field_errors}}
+        
+        {% for field in form %}
+        <div class="fieldWrapper">
+            {{ field.errors }}
+            {{ field.label_tag }} {{ field }}
+            {% if field.help_text %}
+            <p class="help">{{ field.help_text|safe }}</p>
+            {% endif %}
+        </div>
+    {% endfor %}
+        <input type="submit" value="Register" class="w3-button w3-blue w3-round">
+        <br>
+        <br>
+    </form>
+    <br>
+</div>
 {% endblock body %}

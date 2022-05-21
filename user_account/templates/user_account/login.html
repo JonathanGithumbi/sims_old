@@ -1,28 +1,35 @@
 {% extends 'base.html' %}
-
+{%load static%}
 {% block body %}
-{%if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-</ul>
-{%endif %}
-<form method="post" action="{% url 'login' %}">
-{% csrf_token %}
-<table>
-<tr>
-    <td>{{ form.username.label_tag }}</td>
-    <td>{{ form.username }}</td>
-</tr>
-<tr>
-    <td>{{ form.password.label_tag }}</td>
-    <td>{{ form.password }}</td>
-</tr>
-</table>
-
-<input type="submit" value="login">
-<input type="hidden" name="next" value="{{ next }}">
-</form>
-
+    <div class="w3-container">
+        <img src="{% static 'user_account/logo.png'%}" alt="Logo" class="w3-display-topmiddle w3-image"style="width:250px;height:200px;">
+        <br>
+        <br>
+        {% if messages %}
+            <ul class="messages w3-ul w3-border w3-round">
+                {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }} w3-padding-small"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <div class="w3-card w3-display-middle w3-border w3-round">
+            <header class="w3-container w3-light-grey">
+                <h2>Login</h2>
+            </header>
+            <form method="post" action="{% url 'login' %}"  class="w3-container">
+                {% csrf_token %}
+                {{ form.username.label_tag }}
+                {{ form.username }}
+                {{ form.password.label_tag }}
+                {{ form.password }}
+                <br>
+                <input type="submit" value="login" class="w3-btn w3-grey w3-block w3-round">
+                <input type="hidden" name="next" value="{{ next }}">
+            </form>
+            <footer class="w3-container w3-light-grey">
+                <h6>Forgot Password ?</h6>
+            </footer>
+        </div>
+    </div>
 {% endblock body %}
+

@@ -1,8 +1,37 @@
-{% extends 'administrator/admin_base.html' %}
-
-{% block body %}  
-The Following Pupils have signed up for Lunch  
-<table>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lunch Report</title>
+  <style>
+    #lunch_report {
+      
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    #lunch_report td, #lunch_report th {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+    
+    #lunch_report tr:nth-child(even){background-color: #f2f2f2;}
+    
+    #lunch_report tr:hover {background-color: #ddd;}
+    
+    #lunch_report th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-align: left;
+      background-color: #04AA6D;
+      color: white;
+    }
+    </style>
+</head>
+<body>
+  <table id="lunch_report">
     <tr>
       <th>Name</th>
       <th>Grade</th>
@@ -14,4 +43,5 @@ The Following Pupils have signed up for Lunch
       </tr>
     {% endfor %}
 </table>
-{% endblock body %}
+</body>
+</html>

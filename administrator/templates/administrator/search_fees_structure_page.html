@@ -1,36 +1,43 @@
 {% extends 'administrator/admin_base.html' %}
 {% block body %}
-    <form action="{% url 'search_fees_structure' %}" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Search">
-    </form>
-    {% if fees_struc %}
-        <table>
-            <tr>
-                <th>Year</th>
-                <th>Term</th>
-                <th>Grade</th>
-                <th>Admission</th>
-                <th>Diary and Report Book</th>
-                <th>Tuition Fee</th>
-                <th>Hot Lunch</th>
-                <th>Transport</th>
-                <th>Update</th>
-            </tr>
-            <tr>
-                <td>{{ fees_struc.year }}</td>
-                <td>{{ fees_struc.term }}</td>
-                <td>{{ fees_struc.grade }}</td>
-                <td>{{ fees_struc.admission }}</td>
-                <td>{{ fees_struc.diary_and_report_book }}</td>
-                <td>{{ fees_struc.tuition_fee }}</td>
-                <td>{{ fees_struc.hot_lunch }}</td>
-                <td>{{ fees_struc.transport }}</td>
-                <td>
-                    <a href="{% url 'update_fees_structure' fees_struc.id %}">Update</a>
-                </td>
-            </tr>
-        </table>
-    {% endif %}
+    <div class="w3-container">
+        <form action="{% url 'search_fees_structure' %}" method="post" class="w3-container w3-border w3-round w3-light-grey">
+            <h2>Search Fees Structure Form</h2>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Search" class="w3-button w3-blue w3-round">
+            <br>
+            <br>
+        </form>
+        <br>
+        <hr>
+        {% if fees_struc %}
+            <table class="w3-table-all">
+                <tr>
+                    <th>Year</th>
+                    <th>Term</th>
+                    <th>Grade</th>
+                    <th>Admission</th>
+                    <th>Diary and Report Book</th>
+                    <th>Tuition Fee</th>
+                    <th>Hot Lunch</th>
+                    <th>Transport</th>
+                    <th>Update</th>
+                </tr>
+                <tr>
+                    <td>{{ fees_struc.year }}</td>
+                    <td>{{ fees_struc.term }}</td>
+                    <td>{{ fees_struc.grade }}</td>
+                    <td>{{ fees_struc.admission }}</td>
+                    <td>{{ fees_struc.diary_and_report_book }}</td>
+                    <td>{{ fees_struc.tuition_fee }}</td>
+                    <td>{{ fees_struc.hot_lunch }}</td>
+                    <td>{{ fees_struc.transport }}</td>
+                    <td>
+                        <a href="{% url 'update_fees_structure' fees_struc.id %}" class="w3-button w3-blue w3-round w3-small">Update</a>
+                    </td>
+                </tr>
+            </table>
+        {% endif %}
+    </div>
 {% endblock body %}

@@ -1,2 +1,22 @@
 {% extends 'base.html' %}
+{% load static %}
 
+{%block sidebar%}
+<div class="w3-sidebar w3-bar-block w3-light-gray w3-border w3-top " style="width:25%">
+    <div class="w3-display-container">
+      <div class="display-middle">
+        <a href="{% url 'administrator_dashboard'%}"><img src="{% static 'user_account/logo.png'%}" alt="Logo" class="w3-image w3-round" style="width:350px;height:250px;"></a>
+      </div>
+    </div>
+    <a href="{% url 'register_student'%}" class="w3-bar-item w3-button w3-border-bottom">Register Student</a>
+    <a href="{% url 'search_student'%}" class="w3-bar-item w3-button w3-border-bottom">Search Student</a>
+    <a href="{% url 'reports'%}" class="w3-bar-item w3-button w3-border-bottom">Reports</a>
+    <a href="{% url 'search_fees_structure'%}" class="w3-bar-item w3-button w3-border-bottom">Fees Structure</a>
+    <br>
+    <a href="{% url 'logout'%}" class="w3-bar-item w3-button w3-border-bottom w3-red">Logout</a>
+  </div>
+{%endblock sidebar%}
+
+{% block body %}
+
+{% endblock body %}

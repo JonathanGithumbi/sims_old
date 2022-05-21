@@ -1,15 +1,43 @@
-{% extends 'administrator/admin_base.html' %}
-
-{% block body %}
-<table>
-    <tr>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transaction History</title>
+  <style>
+    #transaction_history {
       
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    #transaction_history td, #transaction_history th {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+    
+    #transaction_history tr:nth-child(even){background-color: #f2f2f2;}
+    
+    #transaction_history tr:hover {background-color: #ddd;}
+    
+    #transaction_history th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-align: left;
+      background-color: #04AA6D;
+      color: white;
+    }
+    </style>
+</head>
+<body>
+  <table id="transaction_history">
+    <tr>
       <th>Transaction ID</th>
       <th>Transaction Type</th>
       <th>Date of Payment</th>
       <th>Amount Payed</th>
       <th>Arrears</th>
-      <th>Details</th>
     </tr>
     {% for transaction in transactions %}
       <tr>
@@ -21,4 +49,5 @@
       </tr>
     {% endfor %}
   </table>
-{% endblock body %}
+</body>
+</html>

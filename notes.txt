@@ -34,3 +34,13 @@ make sure you implemennt logic for changin student.current_grade when they proce
 
 make sure the academic calendar is self  sufficient
 
+build rest API for pdf manipulation and build app to consume it
+
+
+21-05-2022
+- Add date picker for student registration form
+- Add Phone Number field 
+- Further Recommendations-: Print Receipts Directly From The system
+- Further Recommendations-: Intergrate API to Confirm the status of a transaction
+- Add payment method field in transactions
+- Add todays date on the admin dashboard and other informatics e.g number of students in the system etc

@@ -26,6 +26,7 @@ from django.template.loader import get_template
 from xhtml2pdf import pisa
 from django.contrib.staticfiles import finders
 from .utils import render_to_pdf
+
 @login_required
 def admin_dashboard(request):
     """This view lands the user on  the administration dashboard"""
@@ -38,7 +39,6 @@ def date_range(start,end):
     delta = end-start
     days = [start + timedelta(days=i) for i in range(delta.days+1)]
     return days
-
 
 def get_term(date):
     """This method returns the term number (int) given the date """
@@ -62,7 +62,6 @@ def get_term(date):
     if date in term_3_days:
         return 3
 
-
 def get_term_amount(date,grade,lunch,transport):#Lunch and transport are optionals 
     """This function retrieves the fees due for a given term, provided the current date"""
     """it returns the amount due for a given term ther amount will be negative to indicate amout is due"""
@@ -80,7 +79,7 @@ def get_term_amount(date,grade,lunch,transport):#Lunch and transport are optiona
         amount = amount + fee.transport + fee.hot_lunch
     
     return -abs(amount)
-
+@login_required
 def register_student(request):
     """This function registers a user, and associates that user to a student which is then associated with a financial account"""
     if request.method == 'GET':
@@ -104,7 +103,7 @@ def register_student(request):
             user.is_active = True
             user.date_of_birth = form.cleaned_data['date_of_birth']
             user.gender = form.cleaned_data['gender']
-            user.image = form.cleaned_data['image']
+            
             user.is_administrator = False
             user.is_teacher = False
             user.is_student = True
@@ -153,14 +152,13 @@ def register_student(request):
             return HttpResponseRedirect(reverse('student_profile', args=[student.user.id]))
         else:
             return render(request,'administrator/student_registration_page.html',{'form':form})
-
 @login_required
 def student_profile(request,id):
     """this function displays the student's information including financial history"""
     """Gives access to  update, delete and downloading and printing of financial documents"""
     student = Student.objects.get(pk=id)
     return render(request, 'administrator/student_profile_page.html',{'student':student})
-
+@login_required
 def search_student(request):
     """Searches for a given student given the first name and grade """
     if request.method == 'GET':
@@ -184,7 +182,7 @@ def search_student(request):
             
         else:
             return render(request, 'administrator/search_student_page.html',{'form':form})
-            
+@login_required       
 def update_student(request,id):
     """Updates student details """
     student = Student.objects.get(pk=id)
@@ -195,7 +193,6 @@ def update_student(request,id):
             'middle_name' : user.middle_name,
             'last_name' : user.last_name, 
             'gender' : user.gender,
-            'image' : user.image,
             'email' : user.email,
             'date_of_birth' : user.date_of_birth,
             'grade_admitted_to' :  student.grade_admitted_to,
@@ -215,7 +212,7 @@ def update_student(request,id):
             user.middle_name = form.cleaned_data['middle_name']
             user.last_name = form.cleaned_data['last_name']
             user.gender = form.cleaned_data['gender']
-            user.image = form.cleaned_data['image']
+            
             user.email = form.cleaned_data['email']
             user.date_of_birth = form.cleaned_data['date_of_birth']
             student.grade_admitted_to = form.cleaned_data['grade_admitted_to']
@@ -228,20 +225,19 @@ def update_student(request,id):
             user.save()
             student.save()
 
-            messages.add_message(request,messages.SUCCESS,"Student Information Updated Successfully")
+            messages.add_message(request,messages.SUCCESS,"Student Information Updated Successfully !")
             
             return redirect(reverse('student_profile', args=[student.user.id]))
         else:
             return render(request, 'administrator/student_update_page.html',{'form':form})
-
+@login_required
 def delete_student(request, id):
     """Deletes a user which deletes the student which deletes the account"""
     user = CustomUser.objects.get(pk=id)
     user.delete()
     messages.add_message(request,messages.SUCCESS,'Student Deleted Successfully')
     return redirect(reverse('administrator_dashboard'))
-
-
+@login_required
 def make_payment(request,id):
     """Making debit transactions"""
     """This is used for debiting amounts to a student's account"""
@@ -267,14 +263,12 @@ def make_payment(request,id):
             return redirect(reverse('student_profile',args=[student.user.id]))
         else:
             return render(request,'administrator/make_payment_page.html',{'form':form,'student':student})
-
-
+@login_required
 def transaction_details(request, id ):
     """displays transaction details and allows you to print/download receipt for a payment """
     transaction = FinancialAccount.objects.get(pk=id)
     return render(request,'administrator/transaction_details.html',{'transaction':transaction})
-        
-
+@login_required
 def download_statement(request, id):
     student= Student.objects.get(pk=id)
     transactions = FinancialAccount.objects.filter(student=student)
@@ -282,19 +276,18 @@ def download_statement(request, id):
     template_name = 'administrator/transaction_history_report.html'
     pdf = render_to_pdf(template_name,context)
     return HttpResponse(pdf, content_type='application/pdf')
-    
+@login_required
 def download_receipt(request, id):
     transaction = FinancialAccount.objects.get(id=id)
     context = {'transaction':transaction}
     template_name = 'administrator/transaction_details.html'
     pdf = render_to_pdf(template_name,context)
     return HttpResponse(pdf, content_type='application/pdf')
-    
+@login_required
 def reports(request):
     """displays options to display and print reports {'students with high arrears','students taking hot lunch this term','students taking transport this year'}"""
     return render(request, 'administrator/reports.html')
-
-
+@login_required
 def search_fees_structure(request):
     """Displays the current fees structure for a give year,term"""
     """Fees structures are grade-wise"""
@@ -312,7 +305,7 @@ def search_fees_structure(request):
             return render(request,'administrator/search_fees_structure_page.html',{'fees_struc':fees_struc,'form':form})
         else:
             return render(request, 'administrator/search_fees_structure_page.html')
-
+@login_required
 def update_fees_structure(request,id):
     fees_struc = FeesStructure.objects.get(pk=id)
     if request.method ==  'GET':
@@ -342,8 +335,7 @@ def update_fees_structure(request,id):
             fees_struc.save()
             form = forms.FeesStructureSearchForm()
             return render(request, 'administrator/search_fees_structure_page.html',{'form':form,'fees_struc':fees_struc})
-
-
+@login_required
 def generate_fees_arrears_report(request):
     # get a list of all the students whose arrears is less than 0
     # make sure to get the latest transaction for a given student
@@ -352,24 +344,21 @@ def generate_fees_arrears_report(request):
     template_name = 'administrator/fees_arrears_report.html'
     pdf = render_to_pdf(template_name,context)
     return HttpResponse(pdf, content_type='application/pdf')
-
-
+@login_required
 def generate_lunch_subscribers_report(request):
     students = Student.objects.filter(hot_lunch=True)
     context = {'students':students}
     template_name = 'administrator/lunch_report.html'
     pdf = render_to_pdf(template_name,context)
     return HttpResponse(pdf, content_type='application/pdf')
-
-
-
+@login_required
 def generate_transport_subscribers_report(request):
     students = Student.objects.filter(transport=True)
     context = {'students':students}
     template_name = 'administrator/transport_report.html'
     pdf = render_to_pdf(template_name,context)
     return HttpResponse(pdf, content_type='application/pdf')
-
+@login_required
 def generate_fees_structure_report(request):
     fees_structures = FeesStructure.objects.all()
     pass

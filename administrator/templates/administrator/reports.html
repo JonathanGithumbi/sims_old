@@ -2,8 +2,9 @@
 
 
 {% block body %}
-these are the reports available 
-<ul>
+<div class="w3-container">
+    <h2>Available Reports</h2>
+<ul class="w3-ul w3-border">
     <li>
         <a href="{% url 'generate_fees_arrears_report'%}">Students With Fees Arrears</a>
     </li>
@@ -15,4 +16,5 @@ these are the reports available
     </li>
     
 </ul>
+</div>
 {% endblock body %}

@@ -1,8 +1,38 @@
-{% extends 'administrator/admin_base.html' %}
-
-{% block body %}  
-The Following Pupils have fees arrears 
-<table>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fees Arrears Report</title>
+  <style>
+    #arrears_report {
+      
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    #arrears_report td, #arrears_report th {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+    
+    #arrears_report tr:nth-child(even){background-color: #f2f2f2;}
+    
+    #arrears_report tr:hover {background-color: #ddd;}
+    
+    #arrears_report th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-align: left;
+      background-color: #04AA6D;
+      color: white;
+    }
+    </style>
+</head>
+<body>
+  <h1>Fees Arrears Report</h1>
+  <table id="arrears_report">
     <tr>
       <th>Name</th>
       <th>Grade</th>
@@ -16,4 +46,5 @@ The Following Pupils have fees arrears
       </tr>
     {% endfor %}
 </table>
-{% endblock body %}
+</body>
+</html>

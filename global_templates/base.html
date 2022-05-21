@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,29 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="{% static 'w3.css' %}">
     <title>SIMS</title>
 </head>
 <body>
-    {%block navbar%}
-    {% if user.is_authenticated%}
-    <a href="{% url 'logout'%}">Logout</a>
-    {%if user.is_student %}
-    <a href="{% url 'student_dashboard'%}">Dashboard</a>
-    {%endif%}
-    {%if user.is_teacher %}
-    <a href="{% url 'teacher_dashboard'%}">Dashboard</a>
-    {%endif%}
-    {%if user.is_administrator%}
-    <a href="{% url 'administrator_dashboard'%}">Dashboard</a>
-    {%endif%}
-    {%endif %}
-    {%if not user.is_authenticated%}
-    <a href="{% url 'login'%}">Login</a>
-    {%endif%}
-    {%endblock navbar%}
+    {%block sidebar%}
+    {%endblock sidebar%}
+    <div style="margin-left: 25%;">
+        {% block body%}
     
-    {% block body%}
-    
-    {%endblock body%}
+        {%endblock body%}
+    </div>
 </body>
 </html>

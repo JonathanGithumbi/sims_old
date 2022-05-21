@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-#from django.urls import reverse
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -42,12 +42,9 @@ INSTALLED_APPS = [
     'index',
     'grade',
     'student',
-    'subject',
-    'teacher',
     'administrator',
     'info',
     'financial_account',
-    'wkhtmltopdf',
 ]
 
 MIDDLEWARE = [
@@ -65,7 +62,7 @@ ROOT_URLCONF = 'sims.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR /'global_templates',BASE_DIR /'registration'],
+        'DIRS': [BASE_DIR /'global_templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -132,7 +129,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
+#STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -147,8 +144,11 @@ AUTHENTICATION_BACKENDS = ['user_account.backends.EmailBackend']
 MEDIA_ROOT = BASE_DIR/ 'static/uploads'
 MEDIA_URL = 'media/'
 STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'static/'
+#STATIC_ROOT = BASE_DIR / 'static/'
+LOGIN_URL = '/account/login/'
 
-
+STATICFILES_DIRS = [
+    BASE_DIR / "static"
+]
 #LOGIN_URL = reverse('login')
 windows_path = r''
