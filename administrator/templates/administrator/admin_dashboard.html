@@ -1,14 +1,48 @@
-{%extends 'administrator/admin_base.html'%}
-
-{%block body%}
-{%if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
-<h1>Administrator Dashboard</h1>
-<hr>
-
-{%endblock body%}
+{% extends 'administrator/admin_base.html' %}
+{% block body %}
+    <div class="w3-container">
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }} w3-panel w3-green w3-border w3-round"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <h1 class="w3-light-grey w3-container  w3-round">Administrator Dashboard</h1>
+        <hr>
+        <div class="w3-container  w3-round">
+            <div class="w3-row-padding w3-section w3-stretch">
+                <div class="w3-col s4">
+                    <div class="w3-card w3-indigo">
+                        <p>
+                            Number of Students: {{context.number_of_students}}
+                        </p>
+                    </div>
+                </div>
+                <div class="w3-col s4">
+                    <div class="w3-card w3-indigo">
+                        <p>
+                            Number of Students with Fees Arrears: {{context.records }}
+                        </p>
+                    </div>
+                </div>
+                <div class="w3-col s4">
+                    <div class="w3-card w3-indigo">
+                        <p>
+                            Number of Students Taking Lunch: {{context.lunch_subscribers}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row-padding w3-section w3-stretch">
+                <div class="w3-col s4">
+                    <div class="w3-card w3-indigo">
+                        <p>
+                            Number of Students taking transport: {{context.transport_subscribers}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+{% endblock body %}

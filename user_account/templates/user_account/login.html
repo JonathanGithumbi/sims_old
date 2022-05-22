@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {%load static%}
 {% block body %}
-    <div class="w3-container">
+    <div class="w3-container ">
         <img src="{% static 'user_account/logo.png'%}" alt="Logo" class="w3-display-topmiddle w3-image"style="width:250px;height:200px;">
         <br>
         <br>
@@ -23,9 +23,10 @@
                 {{ form.password.label_tag }}
                 {{ form.password }}
                 <br>
-                <input type="submit" value="login" class="w3-btn w3-grey w3-block w3-round">
+                <input type="submit" value="login" class="w3-btn w3-green w3-block w3-round">
                 <input type="hidden" name="next" value="{{ next }}">
             </form>
+        
             <footer class="w3-container w3-light-grey">
                 <h6>Forgot Password ?</h6>
             </footer>

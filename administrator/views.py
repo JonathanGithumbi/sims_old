@@ -1,4 +1,5 @@
 from pyexpat.errors import messages
+from unicodedata import numeric
 from urllib.request import proxy_bypass
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
@@ -31,7 +32,17 @@ from .utils import render_to_pdf
 def admin_dashboard(request):
     """This view lands the user on  the administration dashboard"""
     """Displaying a list of functionalities afforded the administrator """
-    return render(request,'administrator/admin_dashboard.html')
+    number_of_students = Student.objects.all().count()
+    records = CurrentBalance.objects.filter(current_balance__lt = 0).count()
+    lunch_subscribers = Student.objects.filter(hot_lunch=True).count()
+    transport_subscribers = Student.objects.filter(transport=True).count()
+    context ={
+        'number_of_students':number_of_students,
+        'records':records ,# Studentts with fees arrears
+        'lunch_subscribers':lunch_subscribers,
+        'transport_subscribers':transport_subscribers
+    }
+    return render(request,'administrator/admin_dashboard.html', {'context':context})
 
 def date_range(start,end):
     """This view returns a list of datetime instances  of days between 'start' day and 'end' day """
