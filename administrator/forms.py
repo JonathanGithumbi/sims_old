@@ -1,3 +1,4 @@
+from logging import PlaceHolder
 from django import forms
 from grade.models import Grade
 
@@ -12,7 +13,7 @@ class StudentRegistrationForm(forms.Form):
     gender = forms.ChoiceField(choices=GENDER_CHOICES, widget=forms.Select(attrs={'class':'w3-input w3-border w3-round'}))
     #image = forms.ImageField(required=False)
     email =forms.EmailField( widget=forms.EmailInput(attrs={'class':'w3-input w3-border w3-round'}))
-    date_of_birth = forms.DateField(widget=forms.DateInput(attrs={'class':'w3-input w3-border w3-round'}))
+    date_of_birth = forms.DateField(widget=forms.DateInput(attrs={'class':'w3-input w3-border w3-round','placeholder':'YYYY-MM-DD'}), input_formats=['%Y-%m-%d'])
     grade_admitted_to = forms.ModelChoiceField(queryset=Grade.objects.all(), widget=forms.Select(attrs={'class':'w3-input w3-border w3-round'}))
     primary_contact_name = forms.CharField( max_length=30,widget=forms.TextInput(attrs={'class':'w3-input w3-border w3-round'}))
     primary_contact_phone_number = forms.CharField( max_length=30,widget=forms.TextInput(attrs={'class':'w3-input w3-border w3-round'}))
@@ -34,13 +35,13 @@ class MakePaymentForm(forms.Form):
     #transaction_number = forms.IntegerField()
 
 class FeesStructureSearchForm(forms.Form):
-    year = forms.IntegerField(widget=forms.NumberInput(attrs={'class':'w3-input w3-border w3-round'}))
-    term = forms.IntegerField(widget=forms.NumberInput(attrs={'class':'w3-input w3-border w3-round'}))
+    year = forms.IntegerField(widget=forms.NumberInput(attrs={'class':'w3-input w3-border w3-round','placeholder':'YYYY'}))
+    term = forms.IntegerField(widget=forms.NumberInput(attrs={'class':'w3-input w3-border w3-round','placeholder':'1 ,2 ,3'}))
     grade = forms.ModelChoiceField(queryset=Grade.objects.all(), widget=forms.Select(attrs={'class':'w3-input w3-border w3-round'}))
 
 class FeesStructureUpdateForm(forms.Form):
-    year = forms.IntegerField(widget=forms.NumberInput(attrs={'class':'w3-input w3-border w3-round'}))
-    term = forms.IntegerField(widget=forms.NumberInput(attrs={'class':'w3-input w3-border w3-round'}))
+    year = forms.IntegerField(widget=forms.NumberInput(attrs={'class':'w3-input w3-border w3-round','placeholder':'YYYY'}))
+    term = forms.IntegerField(widget=forms.NumberInput(attrs={'class':'w3-input w3-border w3-round','placeholder':'1, 2, 3'}))
     grade = forms.ModelChoiceField(queryset=Grade.objects.all(), widget=forms.Select(attrs={'class':'w3-input w3-border w3-round'}))
     admission = forms.IntegerField(widget=forms.NumberInput(attrs={'class':'w3-input w3-border w3-round'}))
     diary_and_report_book = forms.IntegerField(widget=forms.NumberInput(attrs={'class':'w3-input w3-border w3-round'}))

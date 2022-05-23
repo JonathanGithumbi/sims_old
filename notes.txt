@@ -44,3 +44,10 @@ build rest API for pdf manipulation and build app to consume it
 - Further Recommendations-: Intergrate API to Confirm the status of a transaction
 - Add payment method field in transactions
 - Add todays date on the admin dashboard and other informatics e.g number of students in the system etc
+
+22-05-2022
+- design he logic to graduate a student to the next class
+-
+
+23-05-2022
+- how are you going to add existing students and past students

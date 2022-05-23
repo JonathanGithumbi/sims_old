@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'administrator',
     'info',
     'financial_account',
+    'datetimepicker'
 ]
 
 MIDDLEWARE = [
